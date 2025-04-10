@@ -28,9 +28,9 @@ const Login = () => {
           alert("Invalid credentials. Please try again.");
           return;
         }
-
+        console.log("Transactions", transactions);
         console.log("Login was successful:", transactions);
-        setUser({ name: userName, email: userEmail, id:userId }); // Update user context
+        setUser({ name: userName, email: userEmail, UserId:userId }); // Update user context
         setTransaction(transactions); // Update transaction context
         navigate("/home");
       })

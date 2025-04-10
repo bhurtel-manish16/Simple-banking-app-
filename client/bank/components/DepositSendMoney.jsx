@@ -3,13 +3,15 @@ import SideBar from "./SideBar";
 import axios from "axios";
 import { UserContext } from "../context/UserContext"; // Import UserContext to get userId
 
+
 const DepositSendMoney = () => {
   const [amount, setAmount] = useState("");
   const [recipient, setRecipient] = useState("");
   const { user } = useContext(UserContext); // Access user from context
-
+  const { setUser, setTransaction } = useContext(UserContext);
   const handleDeposit = async (e) => {
     e.preventDefault(); // Prevent default form submission
+   console.log("User:", user); // Log the userId to check if it's available
     if (!amount || amount <= 0) {
       alert("Please enter a valid amount to deposit.");
       return;
@@ -20,17 +22,20 @@ const DepositSendMoney = () => {
     }
     try {
       const response = await axios.post("http://localhost:3000/deposit", {
-        userId: user.UserId, // Include userId in the request body
+        userId: user.UserId, // Send userId in the request body
         amount: amount,
       });
       console.log(response.data);
       alert(`Successfully deposited $${amount}`);
+      console.log("Tramsaction to save",response.data.transaction)
+      setTransaction((prevTransaction) => [
+        ...prevTransaction,
+        response.data.transaction,
+      ]); // Update transaction context with the new transaction
       setAmount(""); // Clear the input field
     } catch (error) {
       console.error("There was an error depositing money!", error);
-      alert(
-        error.response?.data?.error || "Error depositing money. Please try again."
-      );
+      alert("Error depositing money. Please try again.");
     }
   };
 
@@ -52,7 +57,7 @@ const DepositSendMoney = () => {
       });
       console.log(response.data);
       alert(`Successfully sent $${amount} to ${recipient}`);
-      setAmount(""); // Clear the input field
+      // Update transaction context with the new transaction
       setRecipient(""); // Clear the recipient field
     } catch (error) {
       console.error("There was an error sending money!", error);

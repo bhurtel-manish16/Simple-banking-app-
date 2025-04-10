@@ -27,7 +27,7 @@ const Home = () => {
               <span className="font-bold">Account number:</span> {user?.id || "N/A"}
             </p>
             <p className="text-gray-600">
-              <span className="font-bold">Account Balance:</span> {transaction?.length > 0 ? `$${transaction[0].amount}` : "N/A"}
+              <span className="font-bold">Account Balance:</span> {transaction?.length > 0 ? `$${transaction[transaction.length-1].amount}` : "N/A"}
             </p>
           </div>
         </div>

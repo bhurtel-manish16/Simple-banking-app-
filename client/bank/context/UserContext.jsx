@@ -26,7 +26,7 @@ export const UserProvider = ({ children }) => {
       localStorage.removeItem("user");
       localStorage.removeItem("transaction");
     }
-  }, [user]);
+  }, [user, transaction]);
 
   return (
     <UserContext.Provider value={{ user, setUser,transaction, setTransaction }}>
