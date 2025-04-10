@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import SignUp from "./models/SignUp.js";
 import UserTransInfo from "./models/UserTransInfo.js";
+import { v4 as uuidv4 } from "uuid";
 
 const app = express();
 dotenv.config();
@@ -19,7 +20,7 @@ mongoose
 
 // SignUp Route
 app.post("/signUp", async (req, res) => {
-  const userId = Math.floor(Math.random() * 1000000).toString();
+  const userId = uuidv4();
 
   try {
     // Create user
@@ -84,8 +85,8 @@ app.post("/login", async (req, res) => {
 
 // Deposit Route
 app.post("/deposit", async (req, res) => {
-  const { userId, amount } = req.body;
-
+  console.log("Request body:", req.body); // Log the request body for debugging
+  const { userId, amount } = req.body; // Expect userId instead of id
   if (!userId || !amount || amount <= 0) {
     return res.status(400).json({ error: "Invalid userId or amount" });
   }
